@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "contextcapsule-handoff": {
+      "source": "Johnny-Z13/context-capsule",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/contextcapsule-handoff/SKILL.md",
+      "computedHash": "5ce6cb76af57dd391575df6a04ecb72fa9109e42e82204333dcb61a7f230a8d6"
+    }
+  }
+}
