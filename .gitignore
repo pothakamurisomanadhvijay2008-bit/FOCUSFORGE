@@ -12,3 +12,4 @@ build/
 htmlcov/
 recordings/
 screenshots-private/
+.contextcapsule/
