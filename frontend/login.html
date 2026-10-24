@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign in or create a FocusForge AI account." />
+  <title>Sign in · FocusForge AI</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body class="auth-body">
+  <section class="auth-art" aria-label="A calmer way to make progress">
+    <a class="auth-art__brand" href="/login" aria-label="FocusForge home">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M22 4 10 22h9l-1 14 13-20h-9l1-12Z" /></svg></span>
+      <span>FocusForge<small>Make room for your work</small></span>
+    </a>
+    <div class="auth-art__scene" aria-hidden="true">
+      <svg viewBox="0 0 520 430" role="presentation" focusable="false">
+        <path class="auth-scene__orbit" d="M67 324c19-141 102-223 205-223s186 82 205 223" />
+        <path class="auth-scene__orbit auth-scene__orbit--inner" d="M122 324c15-94 73-149 150-149s135 55 150 149" />
+        <circle class="auth-scene__sun" cx="272" cy="215" r="83" />
+        <path class="auth-scene__sunline" d="M189 215h166" />
+        <path class="auth-scene__land" d="m30 326 82-78 68 60 83-107 69 82 64-49 124 92" />
+        <path class="auth-scene__desk" d="M94 351h332m-280 0v35m228-35v35m-199-35v-36h143v36" />
+        <path class="auth-scene__book" d="M201 333h48v-19c-17-6-33-6-48 0v19Zm48 0h48v-19c-17-6-33-6-48 0" />
+        <circle class="auth-scene__star" cx="111" cy="123" r="4" /><circle class="auth-scene__star" cx="423" cy="147" r="4" />
+        <path class="auth-scene__spark" d="M412 211v24m-12-12h24M91 202v18m-9-9h18" />
+      </svg>
+      <p>Progress has its own rhythm.</p>
+      <span>MAKE A LITTLE SPACE · SHOW UP · REPEAT</span>
+    </div>
+    <div class="auth-art__foot"><span>VOL. 01</span><span>YOUR TIME, ON YOUR TERMS</span></div>
+  </section>
+  <main class="auth-card" aria-labelledby="authTitle">
+    <a class="auth-brand" href="/login" aria-label="FocusForge AI home">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M22 4 10 22h9l-1 14 13-20h-9l1-12Z" /></svg></span>
+      <span><strong>FocusForge</strong><small>Manual focus tracking</small></span>
+    </a>
+    <h1 id="authTitle">Welcome back</h1>
+    <p class="auth-intro" id="authIntro">Sign in to continue to your dashboard.</p>
+
+    <form id="loginForm" class="auth-form">
+      <label class="form-label" for="loginEmail">Email</label>
+      <input class="form-input" id="loginEmail" type="email" autocomplete="email" required maxlength="254" />
+      <label class="form-label" for="loginPassword">Password</label>
+      <input class="form-input" id="loginPassword" type="password" autocomplete="current-password" required minlength="10" maxlength="128" />
+      <button class="btn btn--primary auth-submit" type="submit">Sign in</button>
+      <p class="auth-switch">New to FocusForge? <button type="button" class="text-button" id="showRegister">Create an account</button></p>
+    </form>
+
+    <form id="registerForm" class="auth-form hidden">
+      <label class="form-label" for="registerEmail">Email</label>
+      <input class="form-input" id="registerEmail" type="email" autocomplete="email" required maxlength="254" />
+      <label class="form-label" for="registerPassword">Password</label>
+      <input class="form-input" id="registerPassword" type="password" autocomplete="new-password" required minlength="10" maxlength="128" aria-describedby="passwordHint" />
+      <small id="passwordHint" class="auth-hint">Use at least 10 characters.</small>
+      <button class="btn btn--primary auth-submit" type="submit">Create account</button>
+      <p class="auth-switch">Already registered? <button type="button" class="text-button" id="showLogin">Sign in</button></p>
+    </form>
+
+    <p class="auth-message" id="authMessage" role="alert" aria-live="polite"></p>
+    <p class="auth-footnote">Your password is stored as a salted scrypt hash. FocusForge tracks only sessions you start manually.</p>
+  </main>
+  <script src="/assets/auth.js" defer></script>
+</body>
+</html>

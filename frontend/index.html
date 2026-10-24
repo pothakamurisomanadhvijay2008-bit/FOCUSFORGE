@@ -3,244 +3,524 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="FocusForge AI — your personal productivity tracking dashboard. Track focus sessions, skills, XP, and achievements." />
-  <title>FocusForge AI — Productivity Dashboard</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="FocusForge AI — time your own focus sessions, set a daily target, and review your work rhythm." />
+  <title>FocusForge AI — Focus Studio</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/assets/style.css" />
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- ══════════════════════════════════════════════════════
-     SIDEBAR NAVIGATION
+     APP BAR
 ═══════════════════════════════════════════════════════ -->
-<nav class="sidebar" id="sidebar" role="navigation" aria-label="Primary navigation">
+<header class="appbar">
+  <a class="appbar__brand" href="#dashboard" aria-label="FocusForge dashboard">
+    <span class="brand-mark" aria-hidden="true">F</span>
+    <span class="brand-word">FocusForge</span>
+    <span class="brand-badge">Studio</span>
+  </a>
 
-  <!-- Brand -->
-  <div class="sidebar__brand">
-    <div class="brand-icon" aria-hidden="true">⚡</div>
-    <div class="brand-text">
-      <span class="brand-name">FocusForge</span>
-      <span class="brand-badge">AI</span>
+  <nav class="appnav" id="sidebar" role="navigation" aria-label="Primary navigation">
+    <a href="#dashboard" class="nav-item nav-item--active" id="nav-dashboard" aria-current="page">
+      <span class="nav-index" aria-hidden="true">01</span><span class="nav-label">Dashboard</span>
+    </a>
+    <a href="#sessions" class="nav-item" id="nav-sessions">
+      <span class="nav-index" aria-hidden="true">02</span><span class="nav-label">Timer</span>
+    </a>
+    <a href="#analytics" class="nav-item" id="nav-analytics">
+      <span class="nav-index" aria-hidden="true">03</span><span class="nav-label">Analytics</span>
+    </a>
+    <a href="#achievements" class="nav-item" id="nav-achievements">
+      <span class="nav-index" aria-hidden="true">04</span><span class="nav-label">Milestones</span>
+    </a>
+    <a href="#skills" class="nav-item" id="nav-skills">
+      <span class="nav-index" aria-hidden="true">05</span><span class="nav-label">Skills</span>
+    </a>
+  </nav>
+
+  <div class="appbar__meta">
+    <div class="status-chip" id="backendStatus" title="Server connection status">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Checking…</span>
+    </div>
+    <div class="coin-chip" aria-label="Your focus coin balance">
+      <span class="coin-chip__mark" aria-hidden="true">✦</span>
+      <strong id="coinBalance">0</strong>
+      <span class="coin-chip__label">coins</span>
+    </div>
+    <button class="btn btn--quiet theme-toggle" id="themeToggle" type="button" aria-pressed="false" title="Switch color theme">
+      <span class="theme-toggle__icon" aria-hidden="true">☾</span><span id="themeToggleLabel">Dark mode</span>
+    </button>
+    <button class="btn btn--primary" id="startSessionBtn" type="button">
+      Start a session <span aria-hidden="true">↗</span>
+    </button>
+    <div class="account-chip">
+      <span class="account-chip__avatar" id="userAvatar" aria-hidden="true">F</span>
+      <span class="account-chip__body">
+        <span class="account-chip__email" id="userEmail">—</span>
+        <button class="account-chip__out" id="logoutBtn" type="button">Sign out</button>
+      </span>
     </div>
   </div>
 
-  <!-- Nav items -->
-  <ul class="sidebar__nav" role="list">
-    <li>
-      <a href="#dashboard" class="nav-item nav-item--active" id="nav-dashboard" aria-current="page">
-        <span class="nav-icon" aria-hidden="true">📊</span>
-        <span class="nav-label">Dashboard</span>
-      </a>
-    </li>
-    <li>
-      <a href="#sessions" class="nav-item" id="nav-sessions">
-        <span class="nav-icon" aria-hidden="true">⏱️</span>
-        <span class="nav-label">Sessions</span>
-      </a>
-    </li>
-    <li>
-      <a href="#skills" class="nav-item" id="nav-skills">
-        <span class="nav-icon" aria-hidden="true">🎯</span>
-        <span class="nav-label">Skills</span>
-      </a>
-    </li>
-    <li>
-      <a href="#achievements" class="nav-item" id="nav-achievements">
-        <span class="nav-icon" aria-hidden="true">🏆</span>
-        <span class="nav-label">Achievements</span>
-      </a>
-    </li>
-    <li>
-      <a href="#goals" class="nav-item" id="nav-goals">
-        <span class="nav-icon" aria-hidden="true">🚀</span>
-        <span class="nav-label">Goals</span>
-      </a>
-    </li>
-    <li>
-      <a href="#analytics" class="nav-item" id="nav-analytics">
-        <span class="nav-icon" aria-hidden="true">📈</span>
-        <span class="nav-label">Analytics</span>
-      </a>
-    </li>
-  </ul>
+  <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 
-  <!-- User profile stub -->
-  <div class="sidebar__footer">
-    <div class="user-avatar" aria-hidden="true">V</div>
-    <div class="user-info">
-      <span class="user-name">Vijay</span>
-      <span class="user-level">Level 1 · Rookie</span>
-    </div>
-    <button class="settings-btn" aria-label="Settings" title="Settings">⚙️</button>
-  </div>
-</nav>
-
-<!-- Mobile sidebar toggle -->
-<button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false" aria-controls="sidebar">
-  <span></span><span></span><span></span>
-</button>
-
-<!-- ══════════════════════════════════════════════════════
-     MAIN CONTENT
-═══════════════════════════════════════════════════════ -->
 <main class="main" id="main">
 
-  <!-- Top bar -->
-  <header class="topbar">
-    <div class="topbar__left">
-      <h1 class="page-title">Dashboard</h1>
-      <p class="page-subtitle">Thursday, 22 October 2026</p>
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section class="hero" id="dashboard" aria-labelledby="hero-title">
+    <div class="hero__copy">
+      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span> Personal focus studio</p>
+      <h1 class="hero__title" id="hero-title">Make space for<br><em>good work.</em></h1>
+      <p class="hero__date" id="pageDate"></p>
+      <p class="hero__note">One task, one stretch of time, your own pace. Every number here comes from a timer you started yourself.</p>
     </div>
-    <div class="topbar__right">
-      <div class="backend-status" id="backendStatus" title="Backend connection status">
-        <span class="status-dot" id="statusDot"></span>
-        <span class="status-text" id="statusText">Checking…</span>
+
+    <aside class="goal-card" aria-labelledby="goal-card-title">
+      <div class="goal-card__ring-wrap">
+        <svg class="goal-ring" viewBox="0 0 120 120" role="img" aria-label="Progress towards today's focus goal">
+          <circle class="goal-ring__track" cx="60" cy="60" r="52" />
+          <circle class="goal-ring__value" id="goalRing" cx="60" cy="60" r="52" />
+        </svg>
+        <div class="goal-card__center">
+          <strong id="goalPercent">—</strong>
+          <span>of goal</span>
+        </div>
       </div>
-      <button class="btn btn--primary btn--lg pulse-ring" id="startSessionBtn">
-        ▶ Start Session
-      </button>
-    </div>
-  </header>
-
-  <!-- ── STAT CARDS ─────────────────────────────────── -->
-  <section class="section" aria-labelledby="stats-heading">
-    <h2 id="stats-heading" class="section__title">Today's Overview</h2>
-    <div class="cards-grid" role="list">
-
-      <article class="card card--purple" role="listitem" aria-label="Productive time today">
-        <div class="card__icon" aria-hidden="true">⏰</div>
-        <div class="card__body">
-          <p class="card__label">Productive Time</p>
-          <p class="card__value" id="productiveTime">—</p>
-          <p class="card__sub">sample data · not tracked yet</p>
+      <div class="goal-card__body">
+        <h2 class="goal-card__title" id="goal-card-title">Today's target</h2>
+        <p class="goal-card__minutes" id="goalMinutes">Set a daily focus goal</p>
+        <form class="goal-form" id="goalForm">
+          <label class="sr-only" for="goalInput">Daily focus goal in minutes</label>
+          <input class="form-input" id="goalInput" type="number" min="0" max="720" step="15" inputmode="numeric" placeholder="120" />
+          <button class="btn btn--quiet" id="goalSaveBtn" type="submit">Save</button>
+        </form>
+        <p class="goal-form__message" id="goalMessage" role="status" aria-live="polite"></p>
+        <div class="streak-row">
+          <span class="streak-row__main"><strong id="goalStreak">0</strong> day streak</span>
+          <span class="streak-row__note" id="goalStreakNote">Longest: 0 days</span>
         </div>
-        <div class="card__trend card__trend--up" aria-label="Trending up">↑ 12%</div>
-      </article>
+      </div>
+    </aside>
+  </section>
 
-      <article class="card card--cyan" role="listitem" aria-label="Focus sessions completed today">
-        <div class="card__icon" aria-hidden="true">🎯</div>
-        <div class="card__body">
-          <p class="card__label">Focus Sessions</p>
-          <p class="card__value" id="focusSessions">—</p>
-          <p class="card__sub">sample data · not tracked yet</p>
-        </div>
-        <div class="card__trend card__trend--up" aria-label="Trending up">↑ 3</div>
-      </article>
-
-      <article class="card card--amber" role="listitem" aria-label="Current skill progress">
-        <div class="card__icon" aria-hidden="true">📚</div>
-        <div class="card__body">
-          <p class="card__label">Skill Progress</p>
-          <p class="card__value" id="skillProgress">—</p>
-          <p class="card__sub">sample data · not tracked yet</p>
-        </div>
-        <div class="card__trend card__trend--up" aria-label="Trending up">↑ 8 pts</div>
-      </article>
-
-      <article class="card card--green" role="listitem" aria-label="Experience points and level">
-        <div class="card__icon" aria-hidden="true">⚡</div>
-        <div class="card__body">
-          <p class="card__label">XP &amp; Level</p>
-          <p class="card__value" id="xpLevel">—</p>
-          <p class="card__sub">sample data · not tracked yet</p>
-        </div>
-        <div class="card__trend" aria-label="XP to next level">→ 150 XP to Lv2</div>
-      </article>
-
+  <!-- ══ QUICK START ═══════════════════════════════════ -->
+  <section class="quickstart" aria-labelledby="quickstart-label">
+    <p class="quickstart__label" id="quickstart-label">Quick start</p>
+    <div class="quickstart__row" id="quickStartRow">
+      <button class="chip chip--accent" type="button" data-preset="coding" data-minutes="25"><span class="chip__index" aria-hidden="true">01</span>Coding · 25m</button>
+      <button class="chip" type="button" data-preset="learning" data-minutes="45"><span class="chip__index" aria-hidden="true">02</span>Learning · 45m</button>
+      <button class="chip" type="button" data-preset="research" data-minutes="45"><span class="chip__index" aria-hidden="true">03</span>Research · 45m</button>
+      <button class="chip" type="button" data-preset="assignment" data-minutes="25"><span class="chip__index" aria-hidden="true">04</span>Assignment · 25m</button>
+      <button class="chip chip--ghost" id="repeatLastBtn" type="button" disabled>↻ Repeat last</button>
+      <button class="chip chip--ghost" id="shortcutHintBtn" type="button" aria-haspopup="dialog">Keyboard <kbd>?</kbd></button>
     </div>
   </section>
 
-  <!-- ── ACTIVE SESSION PANEL ───────────────────────── -->
-  <section class="section" id="sessionSection" aria-labelledby="session-heading">
-    <h2 id="session-heading" class="section__title">Work Session Timer</h2>
-    <div class="session-panel" id="sessionPanel">
-      <div class="session-panel__idle" id="sessionIdle">
-        <div class="session-hero-icon" aria-hidden="true">🚀</div>
-        <h3>Ready to Focus?</h3>
-        <p>Start a session to begin tracking your productivity.<br>
-           <em>Timer tracking is not yet implemented — Phase 1 scaffold only.</em></p>
-        <button class="btn btn--primary btn--xl" id="startSessionBtn2">▶ Start Focus Session</button>
-      </div>
-      <div class="session-panel__active hidden" id="sessionActive">
-        <div class="timer-display" id="timerDisplay" aria-live="polite" aria-label="Session timer">00:00:00</div>
-        <p class="session-tag" id="sessionTag">Deep Work</p>
-        <div class="session-controls">
-          <button class="btn btn--ghost" id="pauseBtn">⏸ Pause</button>
-          <button class="btn btn--danger" id="stopBtn">⏹ End Session</button>
+  <!-- ══ TODAY'S LEDGER ════════════════════════════════ -->
+  <section class="ledger" aria-labelledby="stats-heading">
+    <h2 id="stats-heading" class="sr-only">Today's overview</h2>
+
+    <article class="stat" aria-label="Completed focus time today">
+      <span class="stat__index" aria-hidden="true">01</span>
+      <p class="stat__label">Focus time today</p>
+      <p class="stat__value" id="productiveTime">No data yet</p>
+      <p class="stat__sub">completed manual sessions</p>
+    </article>
+
+    <article class="stat" aria-label="Focus sessions completed today">
+      <span class="stat__index" aria-hidden="true">02</span>
+      <p class="stat__label">Sessions today</p>
+      <p class="stat__value" id="focusSessions">No data yet</p>
+      <p class="stat__sub">finished and saved</p>
+    </article>
+
+    <article class="stat" aria-label="Current skill progress">
+      <span class="stat__index" aria-hidden="true">03</span>
+      <p class="stat__label">Skill milestones</p>
+      <p class="stat__value" id="skillProgress">No assessments</p>
+      <p class="stat__sub">verified checks only</p>
+    </article>
+
+    <article class="stat stat--accent" aria-label="Focus coin balance">
+      <span class="stat__index" aria-hidden="true">04</span>
+      <p class="stat__label">Focus coins</p>
+      <p class="stat__value" id="coinBalanceCard">0</p>
+      <p class="stat__sub">earned from completed timers</p>
+    </article>
+  </section>
+
+  <!-- ══ TIMER + SIDE PANELS ═══════════════════════════ -->
+  <div class="workspace">
+    <div class="workspace__main">
+    <section class="section session-section" id="sessions" aria-labelledby="session-heading" tabindex="-1">
+      <header class="section__head">
+        <span class="section__num" aria-hidden="true">01</span>
+        <h2 class="section__title" id="session-heading">Session timer</h2>
+        <span class="section__rule" aria-hidden="true"></span>
+      </header>
+
+      <div class="session-panel" id="sessionPanel">
+        <div class="session-panel__idle" id="sessionIdle">
+          <p class="session-panel__kicker">Nothing running</p>
+          <h3 class="session-panel__title">Ready when you are.</h3>
+          <p class="session-panel__note">Choose a work type and start the timer when you begin.<br>
+            <em>Manual timing only. FocusForge does not monitor desktop apps or classify idle time.</em></p>
+          <button class="btn btn--primary btn--xl" id="startSessionBtn2" type="button">Set up a session <span aria-hidden="true">↗</span></button>
         </div>
-        <p class="session-notice">
-          ⚠️ This is a UI prototype. Session data is not saved to a backend in Phase 1.
-        </p>
-      </div>
-    </div>
-  </section>
 
-  <!-- ── SKILL PROGRESS BARS ────────────────────────── -->
-  <section class="section" aria-labelledby="skills-heading">
-    <h2 id="skills-heading" class="section__title">Skill Tracker <span class="badge">Sample Data</span></h2>
-    <div class="skills-list" id="skillsList">
-      <!-- Populated by app.js -->
-    </div>
-  </section>
+        <div class="session-panel__active hidden" id="sessionActive">
+          <div class="timer-display" id="timerDisplay" aria-live="polite" aria-label="Session timer">00:00:00</div>
+          <p class="session-tag" id="sessionTag">Session</p>
+          <p class="timer-state" id="sessionState" aria-live="polite">Timer: running</p>
+          <p class="active-task" id="activeTask"></p>
+          <p class="active-goal" id="activeGoal"></p>
 
-  <!-- ── RECENT ACHIEVEMENTS ────────────────────────── -->
-  <section class="section" aria-labelledby="achievements-heading">
-    <h2 id="achievements-heading" class="section__title">Achievements <span class="badge">Sample Data</span></h2>
-    <div class="achievements-grid" id="achievementsGrid">
-      <!-- Populated by app.js -->
-    </div>
-  </section>
+          <div class="session-report">
+            <label class="form-label completion-label" id="completionLabel" for="completionNote">What did you complete? (optional)</label>
+            <textarea class="form-input form-textarea completion-note" id="completionNote" maxlength="500" rows="2" placeholder="A short note about what you finished"></textarea>
+            <div class="session-self-report" id="sessionSelfReport">
+              <div class="session-self-report__intro">
+                <strong>Quick self-check</strong>
+                <span>Optional · visible only in your account</span>
+              </div>
+              <label class="form-label" for="focusRating">How focused did you feel?</label>
+              <select class="form-select" id="focusRating">
+                <option value="">Skip rating</option>
+                <option value="1">1 · Scattered</option>
+                <option value="2">2 · Quite distracted</option>
+                <option value="3">3 · In and out</option>
+                <option value="4">4 · Mostly focused</option>
+                <option value="5">5 · Deeply focused</option>
+              </select>
+              <button class="btn btn--quiet distraction-button" id="logDistractionBtn" type="button">
+                Log a distraction <span class="distraction-count" id="distractionCount">0</span>
+              </button>
+            </div>
+          </div>
 
-  <!-- ── PLACEHOLDER ANALYTICS ─────────────────────── -->
-  <section class="section" aria-labelledby="analytics-heading">
-    <h2 id="analytics-heading" class="section__title">Analytics Preview <span class="badge">Coming in Phase 2</span></h2>
-    <div class="analytics-placeholder">
-      <div class="placeholder-chart" aria-label="Chart placeholder — analytics not yet implemented">
-        <div class="placeholder-bars" aria-hidden="true">
-          <div class="bar" style="height:40%"></div>
-          <div class="bar" style="height:65%"></div>
-          <div class="bar" style="height:50%"></div>
-          <div class="bar" style="height:80%"></div>
-          <div class="bar" style="height:55%"></div>
-          <div class="bar" style="height:90%"></div>
-          <div class="bar" style="height:70%"></div>
+          <div class="session-controls">
+            <button class="btn btn--quiet" id="pauseBtn" type="button">Pause</button>
+            <button class="btn btn--quiet hidden" id="resumeBtn" type="button">Resume</button>
+            <button class="btn btn--danger" id="stopBtn" type="button">⏹ End Session</button>
+          </div>
+
+          <div class="recording-panel" id="recordingPanel">
+            <p class="recording-title">Screen recording <span>optional · stays in this tab</span></p>
+            <label class="recording-consent" for="recordingConsent">
+              <input type="checkbox" id="recordingConsent" />
+              <span>I consent to record the screen I select. This creates a video; app names are included only when I also enable the separate app-activity consent.</span>
+            </label>
+            <label class="recording-consent recording-consent--apps" for="recordingAppActivityConsent">
+              <input type="checkbox" id="recordingAppActivityConsent" />
+              <span>Also record foreground app names and time with the Windows companion. It collects executable names only, stays on this device, and does not inspect screen content.</span>
+            </label>
+            <div class="companion-pairing hidden" id="companionPairingPanel">
+              <label class="form-label" for="companionPairingCode">Windows companion pairing code</label>
+              <div class="companion-pairing__row">
+                <input class="form-input" id="companionPairingCode" type="password" autocomplete="off" spellcheck="false" placeholder="Paste the code shown in the companion" />
+                <button class="btn btn--quiet" id="companionConnectBtn" type="button">Connect</button>
+              </div>
+              <p class="companion-pairing__status" id="companionConnectionStatus" role="status" aria-live="polite">From this project's folder, run <code>.\\.venv\\Scripts\\python.exe .\\desktop_companion\\focusforge_companion.py</code>. If Connect still fails after changing dashboard ports, restart the companion from this same folder and copy its new code.</p>
+            </div>
+            <div class="recording-controls">
+              <button class="btn btn--quiet" id="recordingStartBtn" type="button" disabled>Start screen recording</button>
+              <button class="btn btn--quiet hidden" id="recordingStopBtn" type="button">Stop recording</button>
+              <button class="btn btn--quiet hidden" id="recordingDownloadBtn" type="button">Download recording</button>
+              <button class="btn btn--quiet hidden" id="recordingReportDownloadBtn" type="button">Download app activity Excel</button>
+              <button class="btn btn--primary hidden" id="recordingBundleSaveBtn" type="button">Save video + Excel together</button>
+              <button class="btn btn--quiet hidden" id="recordingReportDeleteBtn" type="button">Delete local app report</button>
+              <button class="btn btn--quiet hidden" id="recordingDiscardBtn" type="button">Discard recording</button>
+            </div>
+            <p class="recording-help">For app usage in Excel: enable both consents, connect the Windows companion, start screen recording, then stop and download the separate app activity Excel. The companion samples foreground executable names about once per second.</p>
+            <p class="recording-status" id="recordingStatus" role="status" aria-live="polite">Timer activity and screen recording have separate controls.</p>
+          </div>
+
+          <p class="session-notice" id="sessionNotice">Tracking only the time you manually start.</p>
         </div>
-        <p class="placeholder-label">Matplotlib / Seaborn charts will render here (Phase 2)</p>
       </div>
+    </section>
+
+    <h3 class="recent-heading" id="recent-sessions-heading">Recent sessions</h3>
+    <div class="recent-sessions" id="recentSessions" aria-live="polite">
+      <p class="empty-state">Loading your sessions…</p>
+    </div>
+    </div>
+
+    <aside class="workspace__side">
+      <section class="panel" aria-labelledby="insights-heading">
+        <header class="panel__head">
+          <h2 id="insights-heading">Insights</h2>
+          <span class="panel__tag">This period</span>
+        </header>
+        <ul class="insight-list" id="insightList">
+          <li class="insight-item">
+            <span class="insight-item__label">Best day</span>
+            <strong class="insight-item__value">—</strong>
+            <small class="insight-item__note">Complete a session to begin</small>
+          </li>
+        </ul>
+      </section>
+
+      <section class="panel panel--keys" aria-labelledby="keys-heading">
+        <header class="panel__head"><h2 id="keys-heading">Keyboard</h2></header>
+        <ul class="key-list">
+          <li><kbd>N</kbd><span>New session</span></li>
+          <li><kbd>Space</kbd><span>Pause / resume</span></li>
+          <li><kbd>Esc</kbd><span>Close dialogs</span></li>
+          <li><kbd>?</kbd><span>Shortcut list</span></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <!-- ══ ANALYTICS ═════════════════════════════════════ -->
+  <section class="section" id="analytics" aria-labelledby="analytics-heading">
+    <header class="section__head section__head--wrap">
+      <span class="section__num" aria-hidden="true">02</span>
+      <h2 class="section__title" id="analytics-heading">Your work rhythm</h2>
+      <span class="section__rule" aria-hidden="true"></span>
+      <div class="analytics-period-controls" aria-label="Choose analysis period">
+        <button class="btn btn--quiet period-arrow" id="periodPrevious" type="button" aria-label="Previous period">←</button>
+        <select class="form-select period-select" id="analyticsPeriod" aria-label="Analysis period">
+          <option value="weekly">Week</option>
+          <option value="monthly">Month</option>
+          <option value="yearly">Year</option>
+        </select>
+        <button class="btn btn--quiet period-arrow" id="periodNext" type="button" aria-label="Next period">→</button>
+      </div>
+    </header>
+
+    <p class="section__note">Built from sessions you start and optional self-reports. Coins use your selected session type and completed timer duration; they do not measure cursor movement or attention.</p>
+    <p class="analytics-range" id="analyticsRange" aria-live="polite">Loading your analysis…</p>
+
+    <div class="analytics-metrics" id="analyticsMetrics" aria-live="polite">
+      <article class="analytics-metric analytics-metric--focus"><span>Focus time</span><strong id="analyticsFocusTime">—</strong><small id="analyticsFocusMeta">Completed work sessions</small></article>
+      <article class="analytics-metric analytics-metric--break"><span>Break time</span><strong id="analyticsBreakTime">—</strong><small id="analyticsBreakMeta">Manually tracked breaks</small></article>
+      <article class="analytics-metric"><span>Focus rhythm</span><strong id="analyticsConsistency">—</strong><small id="analyticsConsistencyMeta">Active days in this period</small></article>
+      <article class="analytics-metric"><span>Self-rated focus</span><strong id="analyticsRating">—</strong><small id="analyticsRatingMeta">Optional 1–5 check-ins</small></article>
+      <article class="analytics-metric"><span>Distractions logged</span><strong id="analyticsDistractions">—</strong><small id="analyticsDistractionMeta">Self-reported events</small></article>
+      <article class="analytics-metric"><span>Typical work block</span><strong id="analyticsMedian">—</strong><small id="analyticsVariation">Daily variation: —</small></article>
+    </div>
+
+    <div class="chart-grid">
+      <article class="chart-card chart-card--wide">
+        <header class="chart-card__head"><h3>Focus trend</h3><span>minutes per bucket</span></header>
+        <div class="chart-canvas" id="chartTrend"></div>
+      </article>
+
+      <article class="chart-card">
+        <header class="chart-card__head"><h3>Session mix</h3><span>focus time share</span></header>
+        <div class="chart-canvas chart-canvas--donut" id="chartTypeDonut"></div>
+      </article>
+
+      <article class="chart-card">
+        <header class="chart-card__head"><h3>Block lengths</h3><span>sessions</span></header>
+        <div class="chart-canvas" id="chartDurationHistogram"></div>
+      </article>
+
+      <article class="chart-card">
+        <header class="chart-card__head"><h3>Start hour</h3><span>local time</span></header>
+        <div class="chart-canvas" id="chartHourBars"></div>
+      </article>
+
+      <article class="chart-card">
+        <header class="chart-card__head"><h3>Weekday rhythm</h3><span>minutes</span></header>
+        <div class="chart-canvas" id="chartWeekdayBars"></div>
+      </article>
+
+      <article class="chart-card">
+        <header class="chart-card__head"><h3>Self-ratings</h3><span>1 – 5</span></header>
+        <div class="chart-canvas" id="chartRating"></div>
+      </article>
+
+      <article class="chart-card chart-card--wide">
+        <header class="chart-card__head"><h3>Period comparison</h3><span>focus minutes</span></header>
+        <div class="chart-canvas chart-canvas--short" id="chartComparison"></div>
+      </article>
+    </div>
+
+    <article class="atlas-card">
+      <div class="atlas-card__head">
+        <div>
+          <h3>Statistical atlas</h3>
+          <p>Pandas · NumPy · Matplotlib · Seaborn — focus and breaks, session mix, ratings, logged distractions, block lengths, start hours and weekday rhythm.</p>
+        </div>
+        <a class="btn btn--quiet" href="/api/sessions/export.xlsx">Download session Excel</a>
+      </div>
+      <img id="analyticsChart" class="atlas-chart hidden" alt="A nine-panel statistical atlas showing tracked focus and break time, focus time by session type, period trends, self-rated concentration, logged distractions, work block lengths, session start hours and weekday rhythm." />
+      <p class="atlas-error hidden" id="analyticsChartError" role="status">Your chart could not load right now.</p>
+    </article>
+
+    <p class="fineprint">Concentration and distraction figures are entered by you. FocusForge does not observe apps, keystrokes, screens, or idle activity.</p>
+  </section>
+
+  <!-- ══ SCREEN ACTIVITY ═══════════════════════════════ -->
+  <section class="section activity-section hidden" id="activityPanel" aria-labelledby="activity-heading">
+    <header class="section__head">
+      <span class="section__num" aria-hidden="true">03</span>
+      <h2 class="section__title" id="activity-heading">
+        <span class="activity-live-dot" aria-hidden="true"></span> Screen activity
+      </h2>
+      <span class="section__rule" aria-hidden="true"></span>
+    </header>
+    <p class="activity-privacy-note">
+      Only app names (e.g. <code>code.exe</code>) and foreground time are recorded — no screen content, no window titles, no URLs.
+      The companion runs locally on this device only.
+    </p>
+
+    <div class="activity-current-app hidden" id="liveCurrentAppBanner">
+      <span class="activity-current-app__label">Now active</span>
+      <code class="activity-current-app__name" id="liveCurrentApp">—</code>
+      <div class="activity-live-score-pill">
+        <span class="score-pill__num" id="liveWorkScore">—</span>
+        <span class="score-pill__label" id="liveWorkScoreLabel">—</span>
+      </div>
+    </div>
+
+    <div class="activity-timeline-card">
+      <div class="activity-timeline-card__header">
+        <h3>App usage timeline</h3>
+        <div class="timeline-legend-key" aria-hidden="true">
+          <span class="legend-key-item legend-key-item--productive">Productive</span>
+          <span class="legend-key-item legend-key-item--distraction">Distraction</span>
+          <span class="legend-key-item legend-key-item--neutral">Neutral</span>
+        </div>
+      </div>
+      <div class="app-timeline-chart" id="appTimelineChart" aria-live="polite">
+        <p class="timeline-empty">Start app tracking with the Windows companion to see live data here.</p>
+      </div>
+      <div class="activity-share-grid">
+        <div class="app-timeline-legend" id="appTimelineLegend"></div>
+        <div class="chart-canvas chart-canvas--donut" id="appUsageDonut"></div>
+      </div>
+    </div>
+
+    <div class="activity-timeline-card">
+      <div class="activity-timeline-card__header">
+        <h3>Saved app activity reports</h3>
+        <button class="btn btn--quiet" id="activityReportsRefreshBtn" type="button">Refresh</button>
+      </div>
+      <p class="timeline-empty" id="activityReportsEmpty">
+        Connect the Windows companion to list the app activity saved on this device.
+      </p>
+      <div class="activity-report-list" id="activityReportList"></div>
+      <p class="activity-report-status" id="activityReportStatus" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="work-score-panel hidden" id="workScorePanel">
+      <div class="work-score-panel__header">
+        <h3>Session work score</h3>
+        <p>Based on which apps were foreground during your companion-tracked session. Productive apps for your session type raise your score; others lower it.</p>
+      </div>
+      <div class="work-score-body">
+        <div class="score-ring-wrap">
+          <div class="score-ring score-ring--focused" id="workScoreRing" aria-label="Work score out of 100">—</div>
+          <p class="score-ring-label" id="workScoreLabel">—</p>
+          <p class="score-ring-multiplier" id="workScoreMultiplier">1× coin multiplier</p>
+        </div>
+        <div class="score-stats">
+          <div class="score-stat">
+            <span class="score-stat__dot" style="background:#7fae8f"></span>
+            <span class="score-stat__label">Productive</span>
+            <strong class="score-stat__val" id="scoreProductiveSecs">—</strong>
+          </div>
+          <div class="score-stat">
+            <span class="score-stat__dot" style="background:#e8623c"></span>
+            <span class="score-stat__label">Distraction</span>
+            <strong class="score-stat__val" id="scoreDistractionSecs">—</strong>
+          </div>
+          <div class="score-stat">
+            <span class="score-stat__dot" style="background:#8d8a80"></span>
+            <span class="score-stat__label">Neutral</span>
+            <strong class="score-stat__val" id="scoreNeutralSecs">—</strong>
+          </div>
+        </div>
+      </div>
+      <div class="score-breakdown" id="scoreBreakdownBars" aria-label="Per-app time breakdown"></div>
+    </div>
+  </section>
+
+  <!-- ══ ACHIEVEMENTS ══════════════════════════════════ -->
+  <section class="section" id="achievements" aria-labelledby="achievements-heading">
+    <header class="section__head">
+      <span class="section__num" aria-hidden="true">04</span>
+      <h2 class="section__title" id="achievements-heading">Milestones</h2>
+      <span class="section__rule" aria-hidden="true"></span>
+    </header>
+    <p class="section__note">Earned from completed timers and saved focus sessions. Nothing is awarded for screen recording, app presence, or idle time.</p>
+    <div class="badge-grid" id="achievementGrid">
+      <p class="empty-state">Complete a tracked session to earn coins and unlock milestones.</p>
+    </div>
+    <p class="fineprint">Coding and assignment minutes earn more coins than learning videos; breaks and Private Mode earn none.</p>
+  </section>
+
+  <!-- ══ SKILLS ════════════════════════════════════════ -->
+  <section class="section" id="skills" aria-labelledby="skills-heading">
+    <header class="section__head">
+      <span class="section__num" aria-hidden="true">05</span>
+      <h2 class="section__title" id="skills-heading">Skill milestones</h2>
+      <span class="section__rule" aria-hidden="true"></span>
+    </header>
+    <div class="empty-panel">
+      <p class="empty-panel__title">No verified skill assessments yet.</p>
+      <p class="empty-panel__body">FocusForge will not infer skill progress from app presence or time spent. Skills stay here until you record a verified assessment.</p>
     </div>
   </section>
 
   <footer class="main__footer">
-    <p>FocusForge AI · Phase 1 Scaffold · No real data is tracked yet ·
-       <a href="/docs" target="_blank" rel="noopener">API Docs ↗</a>
+    <p>FocusForge AI · Manual session tracking · Private sessions stay in this tab and are not saved ·
+      <a href="/docs" target="_blank" rel="noopener">API docs ↗</a>
     </p>
   </footer>
-
 </main>
 
-<!-- ══════════════════════════════════════════════════════
-     SESSION START MODAL
-═══════════════════════════════════════════════════════ -->
+<!-- ══ FLOATING TIMER ══════════════════════════════════ -->
+<aside class="session-floater hidden" id="sessionFloater" aria-label="Floating session controls">
+  <div class="session-floater__handle" id="sessionFloaterHandle" title="Drag to move this indicator" aria-label="Drag floating session indicator">⠿ FocusForge</div>
+  <strong class="session-floater__type" id="floaterType">Session</strong>
+  <time class="session-floater__time" id="floaterTime">00:00:00</time>
+  <span class="session-floater__state" id="floaterState">Timer: running · Screen: not recording</span>
+  <span class="session-floater__notice" id="floaterNotice" role="status" aria-live="polite"></span>
+  <div class="session-floater__controls">
+    <button class="btn btn--quiet" id="floaterPauseBtn" aria-label="Pause session">Pause</button>
+    <button class="btn btn--quiet hidden" id="floaterResumeBtn" aria-label="Resume session">Resume</button>
+    <button class="btn btn--danger" id="floaterStopBtn" aria-label="End session">Stop</button>
+    <button class="btn btn--quiet" id="floaterOpenBtn">Open session</button>
+    <button class="btn btn--quiet" id="floaterPopoutBtn" type="button">Pop out</button>
+    <button class="btn btn--quiet floater-hide" id="floaterHideBtn" type="button">Hide timer</button>
+  </div>
+</aside>
+<button class="floater-restore hidden" id="floaterRestoreBtn" type="button" aria-label="Show floating timer">Show timer <span id="floaterRestoreTime">00:00:00</span></button>
+
+<!-- ══ SESSION MODAL ═══════════════════════════════════ -->
 <div class="modal-overlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal">
-    <h2 id="modalTitle" class="modal__title">🚀 New Focus Session</h2>
+    <p class="modal__kicker">New focus block</p>
+    <h2 id="modalTitle" class="modal__title">New focus session</h2>
     <div class="modal__body">
-      <label class="form-label" for="sessionType">Session Type</label>
+      <label class="form-label" for="sessionType">Session type</label>
       <select class="form-select" id="sessionType">
-        <option value="deep">Deep Work</option>
-        <option value="study">Study / Learning</option>
-        <option value="creative">Creative Work</option>
-        <option value="admin">Admin Tasks</option>
-        <option value="custom">Custom…</option>
+        <option value="coding">Coding</option>
+        <option value="learning">Learning</option>
+        <option value="research">Research</option>
+        <option value="assignment">Assignment</option>
+        <option value="creative">Creative work</option>
+        <option value="video">Watch a learning video</option>
+        <option value="private">Private work (not saved)</option>
+        <option value="break">Break</option>
       </select>
 
-      <label class="form-label" for="sessionGoal">Goal (optional)</label>
-      <input class="form-input" id="sessionGoal" type="text" placeholder="What do you want to accomplish?" maxlength="120" />
+      <p class="session-type-hint" id="sessionTypeHint">Build, debug, or review code.</p>
+      <label class="form-label" for="sessionTask" id="sessionTaskLabel">Task</label>
+      <textarea class="form-input form-textarea" id="sessionTask" placeholder="What are you working on?" maxlength="500" rows="2"></textarea>
+
+      <label class="form-label" for="sessionGoal" id="sessionGoalLabel">Outcome (optional)</label>
+      <input class="form-input" id="sessionGoal" type="text" placeholder="What would you like to finish?" maxlength="240" />
 
       <label class="form-label" for="sessionDuration">Duration</label>
       <select class="form-select" id="sessionDuration">
@@ -252,12 +532,29 @@
       </select>
     </div>
     <div class="modal__footer">
-      <button class="btn btn--ghost" id="modalCancelBtn">Cancel</button>
-      <button class="btn btn--primary" id="modalStartBtn">▶ Start</button>
+      <p class="auth-message session-error" id="sessionError" role="alert" aria-live="polite"></p>
+      <button class="btn btn--quiet" id="modalCancelBtn" type="button">Cancel</button>
+      <button class="btn btn--primary" id="modalStartBtn" type="button">Start session <span aria-hidden="true">↗</span></button>
     </div>
   </div>
 </div>
 
-<script src="app.js"></script>
+<!-- ══ SHORTCUT OVERLAY ════════════════════════════════ -->
+<div class="modal-overlay hidden" id="shortcutOverlay" role="dialog" aria-modal="true" aria-labelledby="shortcutTitle">
+  <div class="modal modal--shortcuts">
+    <p class="modal__kicker">Work without the mouse</p>
+    <h2 id="shortcutTitle" class="modal__title">Keyboard shortcuts</h2>
+    <dl class="shortcut-list">
+      <div><dt><kbd>N</kbd></dt><dd>Start a new session</dd></div>
+      <div><dt><kbd>Space</kbd></dt><dd>Pause or resume the running session</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Close any dialog</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>Open this shortcut list</dd></div>
+    </dl>
+    <p class="fineprint">Shortcuts are ignored while typing in a field.</p>
+    <button class="btn btn--quiet" id="shortcutCloseBtn" type="button">Close</button>
+  </div>
+</div>
+
+<script src="/assets/app.js" defer></script>
 </body>
 </html>

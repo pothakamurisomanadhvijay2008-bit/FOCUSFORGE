@@ -1,0 +1,4 @@
+interface:
+  display_name: "ContextCapsule Handoff"
+  short_description: "Hand off coding tasks without losing repo context."
+  default_prompt: "Use $contextcapsule-handoff to create or resume a safe repository-aware coding handoff."

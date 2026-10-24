@@ -13,3 +13,4 @@ htmlcov/
 recordings/
 screenshots-private/
 .contextcapsule/
+focusforge.sqlite3*
